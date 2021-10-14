@@ -1,7 +1,7 @@
 """
 # PyDragonfly
 Robust Python SDK and CLI for interacting with Dragonfly's API.
-## Docs & Example Usage: https://github.com/certego/pydargonfly
+## Docs & Example Usage: https://github.com/certego/pydragonfly
 """
 
 import pathlib
@@ -9,7 +9,7 @@ from setuptools import setup, find_packages
 from pydragonfly.version import VERSION
 
 # constants
-GITHUB_URL = "https://github.com/certego/pydargonfly"
+GITHUB_URL = "https://github.com/certego/pydragonfly"
 
 # The directory containing this file
 HERE = pathlib.Path(__file__).parent
@@ -21,7 +21,7 @@ requirements_test = (HERE / "requirements.dev.txt").read_text().split("\n")
 
 # This call to setup() does all the work
 setup(
-    name="pydargonfly",
+    name="pydragonfly",
     version=VERSION,
     description="Robust Python SDK and CLI for Dragonfly's API",
     long_description=README,
@@ -33,7 +33,7 @@ setup(
         # Indicate who your project is intended for
         "Intended Audience :: Developers",
         # Pick your license as you wish (should match "license" above)
-        "License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)",
+        "License :: OSI Approved :: BSD License",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
