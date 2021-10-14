@@ -34,8 +34,7 @@ class Report(
         **params: Optional[TParams],
     ) -> APIResponse:
         url = cls.instance_url(object_id) + "/timeline"
-        response = cls._request("GET", url=url, params=params)
-        return response
+        return cls._request("GET", url=url, params=params)
 
     @classmethod
     def matched_rules(
@@ -44,8 +43,7 @@ class Report(
         **params: Optional[TParams],
     ) -> APIResponse:
         url = cls.instance_url(object_id) + "/matched_rules"
-        response = cls._request("GET", url=url, params=params)
-        return response
+        return cls._request("GET", url=url, params=params)
 
     @classmethod
     def revoke(
@@ -54,5 +52,4 @@ class Report(
         **params: Optional[TParams],
     ) -> APIResponse:
         url = cls.instance_url(object_id) + "/revoke"
-        response = cls._request("POST", url=url, params=params)
-        return response
+        return cls._request("POST", url=url, params=params)

@@ -26,5 +26,4 @@ class Sample(
         **params: Optional[TParams],
     ) -> APIResponse:
         url = cls.instance_url(object_id) + "/download"
-        response = cls._request("GET", url=url, params=params)
-        return response
+        return cls._request("GET", url=url, params=params)

@@ -28,8 +28,7 @@ class Invitation(
         **params: Optional[TParams],
     ) -> APIResponse:
         url = cls.instance_url(object_id) + "/accept"
-        response = cls._request("POST", url=url, params=params)
-        return response
+        return cls._request("POST", url=url, params=params)
 
     @classmethod
     def decline(
@@ -38,5 +37,4 @@ class Invitation(
         **params: Optional[TParams],
     ) -> APIResponse:
         url = cls.instance_url(object_id) + "/decline"
-        response = cls._request("POST", url=url, params=params)
-        return response
+        return cls._request("POST", url=url, params=params)

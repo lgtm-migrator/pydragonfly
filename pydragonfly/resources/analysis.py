@@ -42,19 +42,19 @@ class Analysis(
         "sample__filename",
         "weight",
     ]
-    CreateRequestBody = CreateAnalysisRequestBody
+    CreateAnalysisRequestBody = CreateAnalysisRequestBody
 
     @classmethod
     def create(
         cls,
         data: CreateAnalysisRequestBody,
         sample_name: str,
-        sample: bytes,
+        sample_buffer: bytes,
         **params: Optional[TParams],
     ) -> APIResponse:
         url = "api/create_analysis"
         post_data = {"data": json.dumps(data.to_dict())}
-        post_files = {"sample": (sample_name, sample)}
+        post_files = {"sample": (sample_name, sample_buffer)}
         response = cls._request(
             "POST",
             url=url,
@@ -70,8 +70,7 @@ class Analysis(
         **params: Optional[TParams],
     ) -> APIResponse:
         url = cls.class_url() + "/aggregate/evaluations"
-        response = cls._request("GET", url=url, params=params)
-        return response
+        return cls._request("GET", url=url, params=params)
 
     @classmethod
     def aggregate_status(
@@ -79,8 +78,7 @@ class Analysis(
         **params: Optional[TParams],
     ) -> APIResponse:
         url = cls.class_url() + "/aggregate/status"
-        response = cls._request("GET", url=url, params=params)
-        return response
+        return cls._request("GET", url=url, params=params)
 
     @classmethod
     def aggregate_malware_families(
@@ -88,8 +86,7 @@ class Analysis(
         **params: Optional[TParams],
     ) -> APIResponse:
         url = cls.class_url() + "/aggregate/malware_families"
-        response = cls._request("GET", url=url, params=params)
-        return response
+        return cls._request("GET", url=url, params=params)
 
     @classmethod
     def aggregate_malware_type(
@@ -97,8 +94,7 @@ class Analysis(
         **params: Optional[TParams],
     ) -> APIResponse:
         url = cls.class_url() + "/aggregate/malware_type"
-        response = cls._request("GET", url=url, params=params)
-        return response
+        return cls._request("GET", url=url, params=params)
 
     @classmethod
     def revoke(
@@ -107,5 +103,4 @@ class Analysis(
         **params: Optional[TParams],
     ) -> APIResponse:
         url = cls.instance_url(object_id) + "/revoke"
-        response = cls._request("POST", url=url, params=params)
-        return response
+        return cls._request("POST", url=url, params=params)

@@ -39,6 +39,10 @@ class Organization(
     }
     ORDERING_FIELDS = []
 
+    # models
+    InviteRequestBody = InviteRequestBody
+    RemoveMemberRequestBody = RemoveMemberRequestBody
+
     @classmethod
     def invite(
         cls,
@@ -46,8 +50,7 @@ class Organization(
         **params: Optional[TParams],
     ) -> APIResponse:
         url = cls.class_url() + "/invite"
-        response = cls._request("POST", url=url, data=data.to_dict(), params=params)
-        return response
+        return cls._request("POST", url=url, data=data.to_dict(), params=params)
 
     @classmethod
     def remove_member(
@@ -56,5 +59,4 @@ class Organization(
         **params: Optional[TParams],
     ) -> APIResponse:
         url = cls.class_url() + "/remove_member"
-        response = cls._request("POST", url=url, data=data.to_dict(), params=params)
-        return response
+        return cls._request("POST", url=url, data=data.to_dict(), params=params)

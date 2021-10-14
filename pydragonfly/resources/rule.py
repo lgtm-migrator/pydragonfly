@@ -39,5 +39,4 @@ class Rule(
         **params: Optional[TParams],
     ) -> APIResponse:
         url = cls.class_url() + "/aggregate/malware_behaviour"
-        response = cls._request("GET", url=url, params=params)
-        return response
+        return cls._request("GET", url=url, params=params)
