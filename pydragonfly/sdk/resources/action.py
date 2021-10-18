@@ -12,6 +12,10 @@ class Action(
     ListableAPIResourceMixin,
     PaginationAPIResourceMixin,
 ):
+    """
+    :class:`pydragonfly.Dragonfly.Action`
+    """
+
     OBJECT_NAME = "api.action"
     EXPANDABLE_FIELDS = {
         "retrieve": ["user"],

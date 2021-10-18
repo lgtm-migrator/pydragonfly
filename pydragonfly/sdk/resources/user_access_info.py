@@ -9,9 +9,7 @@ class UserAccessInfo(
     SingletonAPIResourceMixin,
 ):
     """
-    Note: ``delete`` and ``leave`` methods are
-    intentionally not provided to avoid accidents.
-    Please use the GUI for those operations.
+    :class:`pydragonfly.Dragonfly.UserAccessInfo`
     """
 
     OBJECT_NAME = "api.me.access"

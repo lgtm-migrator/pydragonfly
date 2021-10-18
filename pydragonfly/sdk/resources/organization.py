@@ -10,15 +10,18 @@ from drf_client.types import TParams
 
 
 @dataclasses.dataclass
+class CreateOrgRequestBody:
+    name: str
+
+
+@dataclasses.dataclass
 class InviteRequestBody:
     username: str
 
-    def to_dict(self) -> dict:
-        return dataclasses.asdict(self)
 
-
-class RemoveMemberRequestBody(InviteRequestBody):
-    pass
+@dataclasses.dataclass
+class RemoveMemberRequestBody:
+    username: str
 
 
 class Organization(
@@ -27,6 +30,8 @@ class Organization(
     CreateableAPIResourceMixin,
 ):
     """
+    :class:`pydragonfly.Dragonfly.Organization`
+
     Note: ``delete`` and ``leave`` methods are
     intentionally not provided to avoid accidents.
     Please use the GUI for those operations.
@@ -40,23 +45,37 @@ class Organization(
     ORDERING_FIELDS = []
 
     # models
+    CreateOrgRequestBody = CreateOrgRequestBody
     InviteRequestBody = InviteRequestBody
     RemoveMemberRequestBody = RemoveMemberRequestBody
+
+    @classmethod
+    def create(
+        cls,
+        data: CreateOrgRequestBody,
+        params: Optional[TParams] = None,
+    ) -> APIResponse:
+        post_data = dataclasses.asdict(data)
+        return super().create(data=post_data, params=params)
 
     @classmethod
     def invite(
         cls,
         data: InviteRequestBody,
-        **params: Optional[TParams],
+        params: Optional[TParams] = None,
     ) -> APIResponse:
         url = cls.class_url() + "/invite"
-        return cls._request("POST", url=url, data=data.to_dict(), params=params)
+        return cls._request(
+            "POST", url=url, json=dataclasses.asdict(data), params=params
+        )
 
     @classmethod
     def remove_member(
         cls,
         data: RemoveMemberRequestBody,
-        **params: Optional[TParams],
+        params: Optional[TParams] = None,
     ) -> APIResponse:
         url = cls.class_url() + "/remove_member"
-        return cls._request("POST", url=url, data=data.to_dict(), params=params)
+        return cls._request(
+            "POST", url=url, json=dataclasses.asdict(data), params=params
+        )

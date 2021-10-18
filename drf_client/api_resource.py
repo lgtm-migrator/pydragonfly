@@ -6,25 +6,40 @@ from .types import Toid, TExpandableFields
 
 class APIResource(metaclass=ABCMeta):
     #: is injected during ``APIClient`` initialization.
+    #: :meta private:
     _request: Callable
 
     @property
     @abstractmethod
     def OBJECT_NAME(self) -> str:
+        """
+        Object name that is used to construct URL string.
+
+        :meta private:
+        """
         raise NotImplementedError()
 
     @property
     @abstractmethod
     def EXPANDABLE_FIELDS(self) -> TExpandableFields:
+        """
+        Expandable fields
+        """
         raise NotImplementedError()
 
     @property
     @abstractmethod
     def ORDERING_FIELDS(self) -> List[str]:
+        """
+        Ordering fields.
+        """
         raise NotImplementedError()
 
     @classmethod
     def class_url(cls):
+        """
+        :meta private:
+        """
         if cls == APIResource:
             raise NotImplementedError(
                 "APIResource is an abstract class."
@@ -37,6 +52,9 @@ class APIResource(metaclass=ABCMeta):
 
     @classmethod
     def instance_url(cls, object_id: Toid):
+        """
+        :meta private:
+        """
         if not isinstance(object_id, (str, int)):
             raise RuntimeError(
                 "Could not determine which URL to request: %s instance "

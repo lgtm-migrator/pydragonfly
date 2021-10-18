@@ -22,4 +22,4 @@ class APIClientException(RequestException):
     def __str__(self):
         err_msg = super().__str__()
         detail = self.error_detail
-        return err_msg + f". Details: {detail}"
+        return err_msg + f"\n[Details: {detail}]"

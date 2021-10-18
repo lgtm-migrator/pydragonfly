@@ -1,7 +1,7 @@
 import logging
 from drf_client import APIClient
 
-from .version import VERSION
+from ..version import VERSION
 from .resources import (
     Action,
     Analysis,
@@ -11,6 +11,7 @@ from .resources import (
     Report,
     Rule,
     Sample,
+    Session,
     UserAccessInfo,
 )
 
@@ -32,4 +33,5 @@ class Dragonfly(APIClient):
     Report = Report
     Rule = Rule
     Sample = Sample
+    Session = Session
     UserAccessInfo = UserAccessInfo

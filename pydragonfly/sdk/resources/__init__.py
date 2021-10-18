@@ -7,4 +7,5 @@ from .profile import Profile
 from .report import Report
 from .rule import Rule
 from .sample import Sample
+from .session import Session
 from .user_access_info import UserAccessInfo

@@ -16,14 +16,11 @@ from drf_client.types import Toid, TParams
 @dataclasses.dataclass
 class CreateAnalysisRequestBody:
     profiles: List[int]
-    private: Optional[bool] = False
-    allow_actions: Optional[bool] = False
-    root: Optional[bool] = False
+    private: bool = False
+    allow_actions: bool = False
+    root: bool = False
     os: Optional[Literal["WINDOWS", "LINUX"]] = None
-    arguments: List[str] = dataclasses.field(default_factory=list)
-
-    def to_dict(self) -> dict:
-        return dataclasses.asdict(self)
+    arguments: Optional[List[str]] = None
 
 
 class Analysis(
@@ -32,6 +29,10 @@ class Analysis(
     ListableAPIResourceMixin,
     PaginationAPIResourceMixin,
 ):
+    """
+    :class:`pydragonfly.Dragonfly.Analysis`
+    """
+
     OBJECT_NAME = "api.analysis"
     EXPANDABLE_FIELDS = {
         "retrieve": ["sample", "reports"],
@@ -50,10 +51,14 @@ class Analysis(
         data: CreateAnalysisRequestBody,
         sample_name: str,
         sample_buffer: bytes,
-        **params: Optional[TParams],
+        params: Optional[TParams] = None,
     ) -> APIResponse:
         url = "api/create_analysis"
-        post_data = {"data": json.dumps(data.to_dict())}
+        post_data = {
+            "data": json.dumps(
+                {k: v for k, v in dataclasses.asdict(data).items() if v is not None}
+            )
+        }
         post_files = {"sample": (sample_name, sample_buffer)}
         response = cls._request(
             "POST",
@@ -67,7 +72,7 @@ class Analysis(
     @classmethod
     def aggregate_evaluations(
         cls,
-        **params: Optional[TParams],
+        params: Optional[TParams] = None,
     ) -> APIResponse:
         url = cls.class_url() + "/aggregate/evaluations"
         return cls._request("GET", url=url, params=params)
@@ -75,7 +80,7 @@ class Analysis(
     @classmethod
     def aggregate_status(
         cls,
-        **params: Optional[TParams],
+        params: Optional[TParams] = None,
     ) -> APIResponse:
         url = cls.class_url() + "/aggregate/status"
         return cls._request("GET", url=url, params=params)
@@ -83,7 +88,7 @@ class Analysis(
     @classmethod
     def aggregate_malware_families(
         cls,
-        **params: Optional[TParams],
+        params: Optional[TParams] = None,
     ) -> APIResponse:
         url = cls.class_url() + "/aggregate/malware_families"
         return cls._request("GET", url=url, params=params)
@@ -91,7 +96,7 @@ class Analysis(
     @classmethod
     def aggregate_malware_type(
         cls,
-        **params: Optional[TParams],
+        params: Optional[TParams] = None,
     ) -> APIResponse:
         url = cls.class_url() + "/aggregate/malware_type"
         return cls._request("GET", url=url, params=params)
@@ -100,7 +105,7 @@ class Analysis(
     def revoke(
         cls,
         object_id: Toid,
-        **params: Optional[TParams],
+        params: Optional[TParams] = None,
     ) -> APIResponse:
         url = cls.instance_url(object_id) + "/revoke"
         return cls._request("POST", url=url, params=params)

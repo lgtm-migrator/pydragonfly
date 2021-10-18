@@ -16,6 +16,10 @@ class Report(
     ListableAPIResourceMixin,
     PaginationAPIResourceMixin,
 ):
+    """
+    :class:`pydragonfly.Dragonfly.Report`
+    """
+
     OBJECT_NAME = "api.report"
     EXPANDABLE_FIELDS = {
         "retrieve": ["profile", "analysis"],
@@ -31,7 +35,7 @@ class Report(
     def timeline(
         cls,
         object_id: Toid,
-        **params: Optional[TParams],
+        params: Optional[TParams] = None,
     ) -> APIResponse:
         url = cls.instance_url(object_id) + "/timeline"
         return cls._request("GET", url=url, params=params)
@@ -40,7 +44,7 @@ class Report(
     def matched_rules(
         cls,
         object_id: Toid,
-        **params: Optional[TParams],
+        params: Optional[TParams] = None,
     ) -> APIResponse:
         url = cls.instance_url(object_id) + "/matched_rules"
         return cls._request("GET", url=url, params=params)
@@ -49,7 +53,7 @@ class Report(
     def revoke(
         cls,
         object_id: Toid,
-        **params: Optional[TParams],
+        params: Optional[TParams] = None,
     ) -> APIResponse:
         url = cls.instance_url(object_id) + "/revoke"
         return cls._request("POST", url=url, params=params)
