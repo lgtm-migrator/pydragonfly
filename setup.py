@@ -62,6 +62,6 @@ setup(
     # pip install --editable .
     entry_points="""
         [console_scripts]
-        pyintelowl=pyintelowl.main:cli
+        pydragonfly=pydragonfly.cli:cli
     """,
 )

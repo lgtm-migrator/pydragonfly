@@ -4,7 +4,7 @@ from unittest import TestCase, SkipTest
 from drf_client import APIResource
 from pydragonfly import Dragonfly, DragonflyException
 
-from tests import TEST_DRAGONFLY_TOKEN, TEST_DRAGONFLY_URL
+from tests import TEST_DRAGONFLY_API_KEY, TEST_DRAGONFLY_URL
 from tests.mock_utils import patch, if_mock_connections, MockAPIResponse
 
 
@@ -17,7 +17,7 @@ class APIResourceBaseTestCase(TestCase):
         if cls == APIResourceBaseTestCase:
             raise SkipTest(f"{cls.__name__} is an abstract base class.")
         # else, setup Dragonfly client instance
-        cls.df = Dragonfly(token=TEST_DRAGONFLY_TOKEN)
+        cls.df = Dragonfly(api_key=TEST_DRAGONFLY_API_KEY)
         cls.df._server_url = TEST_DRAGONFLY_URL
         return super().setUpClass()
 
