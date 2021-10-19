@@ -1,3 +1,4 @@
+# flake8: noqa: E501
 from typing import List, Dict
 from rich import box
 from rich.emoji import Emoji
