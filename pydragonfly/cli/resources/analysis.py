@@ -67,6 +67,7 @@ def analysis_list(ctx: ClickContext, status: str, evaluation: str, as_json: bool
             rprint(response.data)
         else:
             _display_all_analysis(response.data["results"])
+        ctx.obj._logger.info(f"[+] GUI: {ctx.obj._server_url}/history/analysis")
     except DragonflyException as exc:
         ctx.obj._logger.fatal(str(exc))
 
