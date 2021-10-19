@@ -14,6 +14,10 @@ class Invitation(
     ListableAPIResourceMixin,
     DeletableAPIResourceMixin,
 ):
+    """
+    :class:`pydragonfly.Dragonfly.Invitation`
+    """
+
     OBJECT_NAME = "api.me.invitations"
     EXPANDABLE_FIELDS = {
         "retrieve": [],
@@ -25,18 +29,16 @@ class Invitation(
     def accept(
         cls,
         object_id: Toid,
-        **params: Optional[TParams],
+        params: Optional[TParams] = None,
     ) -> APIResponse:
         url = cls.instance_url(object_id) + "/accept"
-        response = cls._request("POST", url=url, params=params)
-        return response
+        return cls._request("POST", url=url, params=params)
 
     @classmethod
     def decline(
         cls,
         object_id: Toid,
-        **params: Optional[TParams],
+        params: Optional[TParams] = None,
     ) -> APIResponse:
         url = cls.instance_url(object_id) + "/decline"
-        response = cls._request("POST", url=url, params=params)
-        return response
+        return cls._request("POST", url=url, params=params)

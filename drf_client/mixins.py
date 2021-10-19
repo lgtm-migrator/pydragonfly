@@ -9,22 +9,20 @@ class RetrievableAPIResourceMixin:
     def retrieve(
         cls,
         object_id: Toid,
-        **params: Optional[TParams],
+        params: Optional[TParams] = None,
     ) -> APIResponse:
         url = cls.instance_url(object_id)
-        response = cls._request("GET", url=url, params=params)
-        return response
+        return cls._request("GET", url=url, params=params)
 
 
 class ListableAPIResourceMixin:
     @classmethod
     def list(
         cls,
-        **params: Optional[TParams],
+        params: Optional[TParams] = None,
     ) -> APIResponse:
         url = cls.class_url()
-        response = cls._request("GET", url=url, params=params)
-        return response
+        return cls._request("GET", url=url, params=params)
 
 
 class CreateableAPIResourceMixin:
@@ -32,11 +30,10 @@ class CreateableAPIResourceMixin:
     def create(
         cls,
         data: Optional[dict] = None,
-        **params: Optional[TParams],
+        params: Optional[TParams] = None,
     ) -> APIResponse:
         url = cls.class_url()
-        response = cls._request("POST", url=url, data=data, params=params)
-        return response
+        return cls._request("POST", url=url, json=data, params=params)
 
 
 class UpdateableAPIResourceMixin:
@@ -45,11 +42,10 @@ class UpdateableAPIResourceMixin:
         cls,
         object_id: Toid,
         data: Optional[dict] = None,
-        **params: Optional[TParams],
+        params: Optional[TParams] = None,
     ) -> APIResponse:
         url = cls.instance_url(object_id)
-        response = cls._request("PUT", url=url, data=data, params=params)
-        return response
+        return cls._request("PATCH", url=url, json=data, params=params)
 
 
 class DeletableAPIResourceMixin:
@@ -57,11 +53,10 @@ class DeletableAPIResourceMixin:
     def delete(
         cls,
         object_id: Toid,
-        **params: Optional[TParams],
+        params: Optional[TParams] = None,
     ) -> APIResponse:
         url = cls.instance_url(object_id)
-        response = cls._request("DELETE", url=url, params=params)
-        return response
+        return cls._request("DELETE", url=url, params=params)
 
 
 class PaginationAPIResourceMixin:
@@ -71,13 +66,15 @@ class PaginationAPIResourceMixin:
 
     @classmethod
     def auto_paging_iter(
-        cls, **params: Optional[TParams]
+        cls,
+        params: Optional[TParams] = None,
     ) -> Generator[APIResponse, None, None]:
-        response = cls.list(**params, page=1)
+        _params = params or {}  # default value
+        response = cls.list(params=dict(_params, page=1))
         yield response  # yield first page
         total_pages = response.data.get("total_pages", 1)
         for page in range(2, total_pages + 1):
-            response = cls.list(**params, page=page)
+            response = cls.list(params=dict(_params, page=page))
             yield response  # yield subsequent pages
 
 
@@ -85,11 +82,10 @@ class SingletonAPIResourceMixin:
     @classmethod
     def get(
         cls,
-        **params: Optional[TParams],
+        params: Optional[TParams] = None,
     ) -> APIResponse:
         url = cls.class_url()
-        response = cls._request("GET", url=url, params=params)
-        return response
+        return cls._request("GET", url=url, params=params)
 
     @classmethod
     def class_url(cls) -> str:

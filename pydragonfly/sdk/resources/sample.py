@@ -12,6 +12,10 @@ class Sample(
     APIResource,
     RetrievableAPIResourceMixin,
 ):
+    """
+    :class:`pydragonfly.Dragonfly.Sample`
+    """
+
     OBJECT_NAME = "api.sample"
     EXPANDABLE_FIELDS = {
         "retrieve": ["user", "analysis"],
@@ -23,8 +27,7 @@ class Sample(
     def download(
         cls,
         object_id: Toid,
-        **params: Optional[TParams],
+        params: Optional[TParams] = None,
     ) -> APIResponse:
         url = cls.instance_url(object_id) + "/download"
-        response = cls._request("GET", url=url, params=params)
-        return response
+        return cls._request("GET", url=url, params=params)

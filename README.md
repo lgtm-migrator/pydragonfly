@@ -17,24 +17,14 @@ $ pip3 install pydragonfly
 
 For development/testing, `pip3 install pydragonfly[dev]`
 
-## Quickstart
+## Documentation
 
-### As a library / SDK
-
-```python
-from pydragonfly import Dragonfly
-df = Dragonfly("<your_api_key>")
-```
-
-For more comprehensive documentation, please see https://pydragonfly.readthedocs.io/.
-
-## Changelog
-
-View [CHANGELOG.md](https://github.com/certego/pydragonfly/blob/master/.github/CHANGELOG.md).
+- Documentation: https://pydragonfly.readthedocs.io/
+- Changelog: [CHANGELOG.md](https://github.com/certego/pydragonfly/blob/master/.github/CHANGELOG.md)
 
 ## FAQ
 
-#### Generate API token
+#### Generate API key
 
-You need a valid API token to interact with the Dragonfly server.
+You need a valid API key to interact with the Dragonfly server.
 Head on over to https://dragonfly.certego.net/me/sessions and click on the "Generate +" button.

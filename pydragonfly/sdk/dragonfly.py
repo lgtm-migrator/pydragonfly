@@ -1,7 +1,7 @@
 import logging
 from drf_client import APIClient
 
-from .version import VERSION
+from ..version import VERSION
 from .resources import (
     Action,
     Analysis,
@@ -11,6 +11,7 @@ from .resources import (
     Report,
     Rule,
     Sample,
+    Session,
     UserAccessInfo,
 )
 
@@ -20,8 +21,8 @@ class Dragonfly(APIClient):
     _server_url: str = "http://localhost"  # FIXME
     _headers = {"User-Agent": f"PyDragonfly/{VERSION}"}
 
-    def __init__(self, token: str, logger: logging.Logger = None):
-        super().__init__(token, None, logger)
+    def __init__(self, api_key: str, logger: logging.Logger = None):
+        super().__init__(api_key, None, logger)
 
     # resources
     Action = Action
@@ -32,4 +33,5 @@ class Dragonfly(APIClient):
     Report = Report
     Rule = Rule
     Sample = Sample
+    Session = Session
     UserAccessInfo = UserAccessInfo

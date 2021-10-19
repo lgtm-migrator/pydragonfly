@@ -86,7 +86,7 @@ class APIClient(metaclass=ABCMeta):
                 msg=(response.url, response.status_code, response.content)
             )
             response.raise_for_status()
-        except Exception as e:
+        except requests.RequestException as e:
             raise APIClientException(e, response=response)
 
         return APIResponse(response)
