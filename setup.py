@@ -1,6 +1,6 @@
 """
 # PyDragonfly
-Robust Python SDK and CLI for interacting with Dragonfly's API.
+Robust Python SDK and CLI for interacting with Certego's Dragonfly service's API.
 ## Docs & Example Usage: https://github.com/certego/pydragonfly
 """
 
@@ -23,11 +23,11 @@ requirements_test = (HERE / "requirements.dev.txt").read_text().split("\n")
 setup(
     name="pydragonfly",
     version=VERSION,
-    description="Robust Python SDK and CLI for Dragonfly's API",
+    description="Robust Python SDK and CLI for Certego's Dragonfly service's API",
     long_description=README,
     long_description_content_type="text/markdown",
     url=GITHUB_URL,
-    author="Matteo Lodi",
+    author="Certego S.R.L",
     classifiers=[
         "Development Status :: 3 - Alpha",
         # Indicate who your project is intended for
