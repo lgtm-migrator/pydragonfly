@@ -4,7 +4,7 @@
 [![PyPI Supported Python Versions](https://img.shields.io/pypi/pyversions/pydragonfly.svg)](https://pypi.python.org/pypi/pydragonfly/)
 
 [![Linter & Tests](https://github.com/certego/pydragonfly/workflows/Linter%20&%20Tests/badge.svg)](https://github.com/certego/pydragonfly/actions)
-[![codecov](https://codecov.io/gh/certego/pydragonfly/branch/master/graph/badge.svg?token=R097M4TYA6)](https://codecov.io/gh/certego/pydragonfly)
+[![codecov](https://codecov.io/gh/certego/pydragonfly/branch/main/graph/badge.svg?token=KBk4rQj08b)](https://codecov.io/gh/certego/pydragonfly)
 [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/certego/pydragonfly.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/certego/pydragonfly/context:python)
 [![CodeFactor](https://www.codefactor.io/repository/github/certego/pydragonfly/badge)](https://www.codefactor.io/repository/github/certego/pydragonfly)
 
