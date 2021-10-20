@@ -1,4 +1,4 @@
-Dragonfly
+Dragonfly client
 ============================
 
 ``Dragonfly`` class
