@@ -1,8 +1,9 @@
 import click
 import click_creds
 from rich import print as rprint
+from typing import Optional
 
-from ..cli._utils import ClickContext
+from ._utils import ClickContext
 
 
 @click.group("config")
@@ -26,35 +27,36 @@ def config_get(netrc: click_creds.NetrcStore):
 @click.option(
     "-k",
     "--api-key",
-    required=True,
     help="Dragonfly API key",
+)
+@click.option(
+    "-c",
+    "--certificate",
+    type=click.Path(exists=True, resolve_path=True),
+    help="Path to SSL client certificate file (.pem)",
 )
 @click.option(
     "-u",
     "--instance-url",
-    required=False,
     default="https://dragonfly.certego.net",
     show_default=True,
     help="Dragonfly's server URL",
 )
 @click.option(
-    "-c",
-    "--certificate",
-    required=False,
-    type=click.Path(exists=True),
-    help="Path to SSL client certificate file (.pem)",
-)
-@click.option(
     "-v",
     "--verify",
-    required=False,
-    default=True,
+    is_flag=True,
     show_default=True,
-    type=click.BOOL,
     help="Boolean determining whether certificate validation is enforced",
 )
 @click.pass_context
-def config_set(ctx: ClickContext, api_key, instance_url, certificate, verify):
+def config_set(
+    ctx: ClickContext,
+    api_key: Optional[str],
+    certificate: Optional[str],
+    instance_url: str,
+    verify: bool,
+):
     """
     Set/Edit config variables
     """
