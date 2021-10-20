@@ -18,7 +18,7 @@ from .resources import (
 
 class Dragonfly(APIClient):
     # overwrite
-    _server_url: str = "http://localhost"  # FIXME
+    _server_url: str = "https://dragonfly.certego.net"
     _headers = {"User-Agent": f"PyDragonfly/{VERSION}"}
 
     def __init__(self, api_key: str, logger: logging.Logger = None):
