@@ -46,7 +46,7 @@ class Report(
         object_id: Toid,
         params: Optional[TParams] = None,
     ) -> APIResponse:
-        url = cls.instance_url(object_id) + "/matched_rules"
+        url = cls.instance_url(object_id) + "/matched-rules"
         return cls._request("GET", url=url, params=params)
 
     @classmethod
