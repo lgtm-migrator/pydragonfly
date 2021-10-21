@@ -4,25 +4,28 @@ Robust Python SDK and CLI for interacting with Certego's Dragonfly service's API
 ## Docs & Example Usage: https://github.com/certego/pydragonfly
 """
 
-import pathlib
+from pathlib import Path
 from setuptools import setup, find_packages
-from pydragonfly.version import VERSION
 
 # constants
 GITHUB_URL = "https://github.com/certego/pydragonfly"
 
 # The directory containing this file
-HERE = pathlib.Path(__file__).parent
+HERE = Path(__file__).parent
 # The text of the README file
 README = (HERE / "README.md").read_text()
 # Get requirements from files
 requirements = (HERE / "requirements.txt").read_text().split("\n")
 requirements_test = (HERE / "requirements.dev.txt").read_text().split("\n")
+# read version
+version_contents = {}
+with open((HERE / "pydragonfly" / "version.py"), encoding="utf-8") as f:
+    exec(f.read(), version_contents)
 
 # This call to setup() does all the work
 setup(
     name="pydragonfly",
-    version=VERSION,
+    version=version_contents["VERSION"],
     description="Robust Python SDK and CLI for Certego's Dragonfly service's API",
     long_description=README,
     long_description_content_type="text/markdown",

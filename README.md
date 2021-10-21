@@ -13,6 +13,20 @@ Robust Python **SDK** and **Command Line Client** for interacting with Certego's
 ## Features
 
 - Easy one-time configuration with self documented help and hints along the way.
+- Supports all endpoints of [Dragonfly's REST API](https://dragonfly.certego.net/api/schema/swagger-ui/).
+- Analysis:
+  - Create new analysis by uploading sample
+  - Revoke a running analysis
+  - View analysis report
+  - List latest with filtering, ordering, pagination capabilities
+  - Download sample of an existing analysis
+- Profile and Rule:
+  - Create new Profile or Rule objects
+  - Update existing Profile and Rule objects
+  - List latest with filtering, ordering, pagination capabilities
+- View and manage your dragonfly organization and invitations
+- View and manage active browser sessions
+- View account access and subscription info
 
 ## Installation
 
@@ -35,5 +49,5 @@ For development/testing, `pip3 install pydragonfly[dev]`
 
 #### Generate API key
 
-You need a valid API key to interact with the Dragonfly server.
-Head on over to https://dragonfly.certego.net/me/sessions and click on the "Generate +" button.
+You need a valid API key to interact with the Dragonfly server. For this,
+head on over to https://dragonfly.certego.net/me/sessions and click on the `Generate +` button.

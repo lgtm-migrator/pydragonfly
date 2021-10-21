@@ -13,7 +13,7 @@ class APIResponse(object):
     file_name: str
     raw: bytes
 
-    def __init__(self, response: requests.Response):
+    def __init__(self, response: requests.Response) -> None:
         self._response = response
         self.url = response.url
         self.code = response.status_code
