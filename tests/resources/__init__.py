@@ -1,7 +1,7 @@
 from abc import abstractmethod
 from unittest import TestCase, SkipTest
 
-from drf_client import APIResource
+from django_rest_client import APIResource
 from pydragonfly import Dragonfly, DragonflyException
 
 from tests import TEST_DRAGONFLY_API_KEY, TEST_DRAGONFLY_URL
@@ -141,11 +141,11 @@ class APIResourceBaseTestCase(TestCase):
         page_iter_fn = getattr(self.resource, "auto_paging_iter", None)
         if page_iter_fn:
             # a) ok
-            for response in page_iter_fn():
+            for response, page in page_iter_fn():
                 self.assertEqual(200, response.code)
             # b) error
             with self.assertRaises(DragonflyException):
-                for response in page_iter_fn():
+                for response, page in page_iter_fn():
                     self.assertEqual(200, response.code)
 
     @if_mock_connections(
