@@ -28,6 +28,10 @@ Robust Python **SDK** and **Command Line Client** for interacting with Certego's
 - View and manage active browser sessions
 - View account access and subscription info
 
+## Demo
+
+[![pydragonfly asciicast](https://asciinema.org/a/443248.svg)](https://asciinema.org/a/443248)
+
 ## Installation
 
 Requires python version >=3.6.
