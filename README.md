@@ -8,7 +8,7 @@
 [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/certego/pydragonfly.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/certego/pydragonfly/context:python)
 [![CodeFactor](https://www.codefactor.io/repository/github/certego/pydragonfly/badge)](https://www.codefactor.io/repository/github/certego/pydragonfly)
 
-Robust Python **SDK** and **Command Line Client** for interacting with Certego's [Dragonfly](https://dragonfly.certego.net/) service's API.
+Robust Python **SDK** and **Command Line Client** for interacting with Certego's [Dragonfly](https://dragonfly.certego.net/) service's API. Built with [django-rest-client](https://github.com/certego/django-rest-client).
 
 ## Features
 
