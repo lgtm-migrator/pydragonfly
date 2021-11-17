@@ -211,10 +211,10 @@ Requesting analysis...
         sha256 = response.data["sample"]["sha256"]
         ctx.obj._logger.info(
             f"""
-Success {get_success_text("SUCCESS", False)}...
+Success {get_success_text("True", as_text=False)}...
     [+] ID: {analysis_id}
     [+] File/SHA256: [cyan]{filename} ({sha256})[/]
-    [+] Status: {get_status_text(status, False)}
+    [+] Status: {get_status_text(status, as_text=False)}
     [+] URL: {gui_url}
             """
         )

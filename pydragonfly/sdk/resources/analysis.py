@@ -7,6 +7,7 @@ from django_rest_client import (
     APIResource,
     RetrievableAPIResourceMixin,
     ListableAPIResourceMixin,
+    CreateableAPIResourceMixin,
     PaginationAPIResourceMixin,
 )
 from django_rest_client.types import Toid, TParams
@@ -27,6 +28,7 @@ class Analysis(
     APIResource,
     RetrievableAPIResourceMixin,
     ListableAPIResourceMixin,
+    CreateableAPIResourceMixin,
     PaginationAPIResourceMixin,
 ):
     """
@@ -54,26 +56,22 @@ class Analysis(
         params: Optional[TParams] = None,
     ) -> APIResponse:
         # first: POST sample uploading it
-        url1 = "api/sample"
-        req_data1 = {"sample": (sample_name, sample_buffer)}
-        response1 = cls._request(
+        resp1 = cls._request(
             "POST",
-            url=url1,
-            files=req_data1,
+            url="api/sample",
+            files={"sample": (sample_name, sample_buffer)},
         )
         # second: POST analysis using the new sample ID
-        url2 = "api/create_analysis"
-        req_data2 = {
-            **{k: v for k, v in dataclasses.asdict(data).items() if v is not None},
-            "sample_id": response1.data["id"],
-        }
-        response2 = cls._request(
+        resp2 = cls._request(
             "POST",
-            url=url2,
-            data=req_data2,
+            url=cls.class_url(),
+            json={
+                **{k: v for k, v in dataclasses.asdict(data).items() if v is not None},
+                "sample_id": resp1.data["id"],
+            },
             params=params,
         )
-        return response2
+        return resp2
 
     @classmethod
     def aggregate_evaluations(
