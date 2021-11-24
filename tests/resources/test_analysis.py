@@ -18,7 +18,9 @@ class AnalysisResourceTestCase(APIResourceBaseTestCase):
     @if_mock_connections(
         patch(
             "requests.Session.request",
-            return_value=MockAPIResponse({"id": 1}, 201),
+            return_value=MockAPIResponse(
+                {"id": 1, "malware_type": "DLL", "entry_points": []}, 201
+            ),
         )
     )  # POST /api/sample
     @generic_201_mock  # POST /api/analysis
