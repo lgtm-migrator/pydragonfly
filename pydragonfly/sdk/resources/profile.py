@@ -44,6 +44,7 @@ class Profile(
         "list": ["user", "permissions"],
     }
     ORDERING_FIELDS = [
+        "id",
         "filename",
         "created_at",
     ]

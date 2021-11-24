@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.0.3](https://github.com/certego/pydragonfly/releases/tag/0.0.3)
+
+- Fixed "Please select at least one entrypoint" error in `Analysis.create` when uploading DLL samples.
+
 ## [0.0.2](https://github.com/certego/pydragonfly/releases/tag/0.0.2)
 
 > Supports Dragonfly >= 1.0.6

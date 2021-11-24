@@ -62,13 +62,21 @@ class Analysis(
             files={"sample": (sample_name, sample_buffer)},
         )
         # second: POST analysis using the new sample ID
+        # build request body
+        req_data = {
+            **{k: v for k, v in dataclasses.asdict(data).items() if v is not None},
+            "sample_id": resp1.data["id"],
+        }
+        if resp1.data["malware_type"] == "DLL":
+            req_data["dll_entrypoints"] = (
+                data.dll_entrypoints
+                if data.dll_entrypoints
+                else resp1.data["entry_points"]
+            )  # dll_entrypoints is required in case of DLL
         resp2 = cls._request(
             "POST",
             url=cls.class_url(),
-            json={
-                **{k: v for k, v in dataclasses.asdict(data).items() if v is not None},
-                "sample_id": resp1.data["id"],
-            },
+            json=req_data,
             params=params,
         )
         return resp2
