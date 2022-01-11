@@ -69,30 +69,31 @@ class Dragonfly(APIClient):
 
         Args:
             ``sample_name`` (str):
-            Name of the sample to analyze.\n
+             Name of the sample to analyze.\n
             ``sample_buffer`` (bytes):
-            Sample buffer in bytes form.\n
+             Sample buffer in bytes form.\n
             ``retrieve_analysis`` (bool, optional):
-            If ``True``, fetch and return result otherwise return only analysis ID.
-            Default ``True``.\n
+             If ``True``, fetch and return result otherwise return only analysis ID.
+             Default ``True``.\n
             ``profiles`` (List[int], optional):
-            List of IDs of profiles to emulate against. Default ``[1,2]``.\n
+             List of IDs of profiles to emulate against.
+             Default ``[1,2]``.\n
             ``private`` (bool, optional):
-            Mark analysis as private limitting access to you
-            and members in your organization only. Requires paid subscription.
-            Default ``False``.\n
+             Mark analysis as private limitting access to you
+             and members in your organization only. Requires paid subscription.
+             Default ``False``.\n
             ``root`` (bool, optional):
-            Emulate with root permissions on OS level.
-            Default ``False``.\n
+             Emulate with root permissions on OS level.
+             Default ``False``.\n
             ``operating_system`` (str, optional):
-            OS of the given sample. Default ``None`` i.e. detected by dragonfly.\n
+             OS of the given sample. Default ``None`` i.e. detected by dragonfly.\n
             ``arguments`` (List[str], optional):
-            List of extra CLI arguments to pass to the emulator.
-            Only use if you know what you are doing.
-            Default ``None``.\n
+             List of extra CLI arguments to pass to the emulator.
+             Only use if you know what you are doing.
+             Default ``None``.\n
             ``dll_entrypoints`` (List[str], optional):
-            DLL entrypoints.
-            Default ``None``.
+             DLL entrypoints.
+             Default ``None``.
         """
         if profiles is None:
             profiles = [1, 2]
