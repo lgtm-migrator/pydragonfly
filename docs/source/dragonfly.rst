@@ -5,7 +5,7 @@ Dragonfly client
 --------------------------------
 
 .. autoclass:: pydragonfly.Dragonfly
-   :members: _server_url, _headers
+   :members: _server_url, _headers, analyze_file, analysis_result
    :undoc-members:
 
    .. autoclass:: pydragonfly.Dragonfly.Action
