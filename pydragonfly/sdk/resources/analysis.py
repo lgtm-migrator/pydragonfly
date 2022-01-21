@@ -1,6 +1,5 @@
 import dataclasses
-from typing import List, Optional, Set
-from typing_extensions import Literal
+from typing import Dict, List, Optional, Set
 
 from django_rest_client import (
     APIResource,
@@ -11,12 +10,19 @@ from django_rest_client import (
     RetrievableAPIResourceMixin,
 )
 from django_rest_client.types import Toid, TParams
+from typing_extensions import Literal
 
 from pydragonfly.sdk.const import ANALYZED, CLEAN, FAILED, REVOKED
+
 from .report import Report
+from ._utils import omit_keys
 
 
 class AnalysisResult:
+    """
+    .. versionadded:: 0.0.4
+    """
+
     @dataclasses.dataclass
     class RuleResult:
         name: str
@@ -31,20 +37,23 @@ class AnalysisResult:
 
     # defaults
     id: Toid
+    created_at: str
     gui_url: str
     api_url: str
     status: str
     evaluation: str = CLEAN
     weight: int = 0
-    malware_family: Optional[str] = None
     malware_families: List[str] = []
+    #: deprecated in favor of ``mitre_techniques``.
     malware_behaviours: List[str] = []
-    sample: dict = {}
-    reports: List[dict] = []
+    mitre_techniques: List[Dict] = []
+    sample: Dict = {}
+    reports: List[Dict] = []
     matched_rules: List[RuleResult] = []
     # extras
     score: int = 0
     malware_family: Optional[str] = None
+    #: deprecated
     malware_behaviour: Optional[str] = None
     errors: List[str] = []
 
@@ -56,6 +65,7 @@ class AnalysisResult:
     def __dict__(self) -> dict:
         return {
             "id": self.id,
+            "created_at": self.created_at,
             "gui_url": self.gui_url,
             "api_url": self.api_url,
             "status": self.status,
@@ -63,7 +73,7 @@ class AnalysisResult:
             "weight": self.weight,
             "score": self.score,
             "malware_families": self.malware_families,
-            "malware_behaviours": self.malware_behaviours,
+            "mitre_techniques": self.mitre_techniques,
             "sample": self.sample,
             "reports": self.reports,
             "matched_rules": [dataclasses.asdict(mr) for mr in self.matched_rules],
@@ -89,9 +99,12 @@ class AnalysisResult:
             params=TParams(
                 expand=["sample"],
                 omit=[
+                    "sample.file_deleted",
                     "sample.sections",
                     "sample.flags",
                     "sample.dlls_imported",
+                    "sample.entry_points",
+                    "sample.user",
                     "sample.file_version_info",
                 ],
             ),
@@ -109,15 +122,42 @@ class AnalysisResult:
 
     def __populate(self, data: dict) -> None:
         # defaults
+        self.created_at = data["created_at"]
         self.gui_url = data["gui_url"]
         self.api_url = data["api_url"]
         self.status = data["status"]
         self.evaluation = data["evaluation"]
         self.weight = data["weight"]
         self.malware_families = data["malware_families"]
-        self.malware_behaviours = data["malware_behaviours"]
+        self.mitre_techniques = (
+            [
+                {
+                    "tid": tactic["tid"],
+                    "name": tactic["name"],
+                    "techniques": [
+                        {
+                            "tid": technique["tid"],
+                            "name": technique["name"],
+                        }
+                        for technique in tactic["techniques"]
+                    ],
+                }
+                for tactic in data["mitre_techniques"]
+                if tactic["techniques"]
+            ]
+            if data["mitre_techniques"]
+            else []
+        )
+        self.malware_behaviours = [  # deprecated
+            technique["name"]
+            for tactic in self.mitre_techniques
+            for technique in tactic["techniques"]
+        ]
         self.sample = data["sample"]
-        self.reports = data["reports"]
+        self.reports = [
+            omit_keys(report, ["time", "malware_families"])
+            for report in data["reports"]
+        ]
         matched_rules: Set[AnalysisResult.RuleResult] = set()
         for rule in data["matched_rules"]:
             matched_rules.add(
@@ -137,7 +177,7 @@ class AnalysisResult:
         self.malware_family = (
             self.malware_families[0] if self.malware_families else None
         )
-        self.malware_behaviour = (
+        self.malware_behaviour = (  # deprecated
             self.malware_behaviours[0] if self.malware_behaviours else None
         )
         self.errors = list(

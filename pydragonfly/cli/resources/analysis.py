@@ -89,9 +89,12 @@ def analysis_retrieve(ctx: ClickContext, analysis_id: int, as_json: bool):
             params=TParams(
                 expand=["sample"],
                 omit=[
+                    "sample.file_deleted",
                     "sample.sections",
                     "sample.flags",
                     "sample.dlls_imported",
+                    "sample.entry_points",
+                    "sample.user",
                     "sample.file_version_info",
                 ],
             ),

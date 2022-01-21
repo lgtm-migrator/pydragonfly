@@ -25,11 +25,23 @@ class AnalysisResultTestCase(TestCase):
 
     result_json = {
         "id": 12,
+        "created_at": "2022-01-17T12:07:55.446274Z",
         "status": "ANALYZED",
         "evaluation": "MALICIOUS",
         "weight": 120,
         "malware_families": ["Ransomware", "Trojan"],
-        "malware_behaviours": ["Crypt", "Test"],
+        "mitre_techniques": [
+            {
+                "tid": "tactic_tid",
+                "name": "test_tactic",
+                "techniques": [
+                    {
+                        "tid": "technique_tid",
+                        "name": "test_technique",
+                    }
+                ],
+            }
+        ],
         "sample": {"id": 1, "filename": "test"},
         "reports": [
             {
@@ -59,9 +71,9 @@ class AnalysisResultTestCase(TestCase):
         self.assertEqual(result.reports, self.result_json["reports"])
         self.assertEqual(result.score, 10)
         self.assertEqual(result.malware_family, "Ransomware")
-        self.assertEqual(result.malware_behaviour, "Crypt")
-        self.assertEqual(result.errors, ["Internal error"])
-        self.assertEqual(len(result.matched_rules), 1)
+        self.assertEqual(result.malware_behaviour, "test_technique")
+        self.assertEqual(result.malware_behaviours, ["test_technique"])
+        self.assertEqual(result.mitre_techniques, self.result_json["mitre_techniques"])
         self.assertEqual(result.matched_rules[0].name, "TestRule")
         self.assertEqual(result.matched_rules[0].weight, 97)
         self.assertEqual(result.matched_rules[0].score, 10)
