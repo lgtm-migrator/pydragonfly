@@ -1,17 +1,18 @@
 # flake8: noqa: E501
-from typing import List, Dict
+from typing import Dict, List
+
 from rich import box
+from rich.console import Console, RenderGroup
 from rich.emoji import Emoji
 from rich.panel import Panel
 from rich.table import Table
-from rich.console import RenderGroup, Console
 
 from .._utils import (
+    get_datetime_text,
+    get_json_syntax,
     get_status_text,
     get_success_text,
     get_weight_text,
-    get_datetime_text,
-    get_json_syntax,
 )
 
 
@@ -53,8 +54,13 @@ def _display_single_analysis(data: Dict) -> None:
                 f"{style}Status:[/] {get_status_text(data['status'], False)}",
                 f"{style}Evaluation:[/] {get_status_text(data['evaluation'], False)}",
                 f"{style}Weight:[/] {data['weight']}",
-                f"{style}Malware Families:[/] {data['malware_families']}",
-                f"{style}Malware Behaviours:[/] {data['malware_behaviours']}",
+                f"{style}Malware Families:[/] " + ",".join(data["malware_families"]),
+                f"{style}Mitre Techniques:[/] "
+                + ",".join(
+                    f"[link={technique['mitre_url']}]{technique['name']}[/link]"
+                    for tactic in data["mitre_techniques"]
+                    for technique in tactic["techniques"]
+                ),
             ),
             title="Result Overview",
         ),
@@ -87,7 +93,7 @@ def _generate_analysis_table(rows: List[Dict]) -> Table:
         "ID",
         "Created",
         "Sample",
-        "alware\nBehaviours",
+        "Mitre\nTechniques",
         "Malware\nFamilies",
         "Status",
         "Evaluation",
@@ -99,7 +105,10 @@ def _generate_analysis_table(rows: List[Dict]) -> Table:
             f"[link={el['gui_url']}]{Emoji('link')} {el['id']}[/link]",
             get_datetime_text(el["created_at"]),
             f"{el['sample']['filename']}\n({el['sample']['os']}, {el['sample']['arch']}, {el['sample']['mode']})",
-            ",".join(el["malware_behaviours"]),
+            ",".join(
+                f"[link={tactic['mitre_url']}]{tactic['name']}[/link]"
+                for tactic in el["mitre_techniques"]
+            ),
             ",".join(el["malware_families"]),
             get_status_text(el["status"]),
             get_status_text(el["evaluation"]),
@@ -135,7 +144,7 @@ def _generate_rule_table(rows: List[Dict]) -> Table:
         "Enabled",
         "Name",
         "Meta",
-        "Malware\nBehaviour",
+        "Mitre\nTechnique",
         "Malware\nFamily",
         "Variables",
         "Weight",
@@ -146,10 +155,12 @@ def _generate_rule_table(rows: List[Dict]) -> Table:
             str(el["id"]),
             get_success_text(str(el["enabled"])),
             el["rule"],
-            get_json_syntax(el["meta_description"]),
-            el["malware_behaviour"],
+            get_json_syntax(el["meta_description"]) if el["meta_description"] else None,
+            f"[link={el['mitre_technique']['mitre_url']}]{el['mitre_technique']['name']}[/link]"
+            if el["mitre_technique"]
+            else None,
             el["malware_family"],
-            get_json_syntax(el["variables"]),
+            get_json_syntax(el["variables"]) if el["variables"] else None,
             get_weight_text(el["weight"]),
         )
     return table
