@@ -15,6 +15,7 @@ from typing_extensions import Literal
 from pydragonfly.sdk.const import ANALYZED, CLEAN, FAILED, REVOKED
 
 from .report import Report
+from ._utils import omit_keys
 
 
 class AnalysisResult:
@@ -36,6 +37,7 @@ class AnalysisResult:
 
     # defaults
     id: Toid
+    created_at: str
     gui_url: str
     api_url: str
     status: str
@@ -44,7 +46,6 @@ class AnalysisResult:
     malware_families: List[str] = []
     #: deprecated in favor of ``mitre_techniques``.
     malware_behaviours: List[str] = []
-    #: .. versionadded:: 0.1.0
     mitre_techniques: List[Dict] = []
     sample: Dict = {}
     reports: List[Dict] = []
@@ -64,6 +65,7 @@ class AnalysisResult:
     def __dict__(self) -> dict:
         return {
             "id": self.id,
+            "created_at": self.created_at,
             "gui_url": self.gui_url,
             "api_url": self.api_url,
             "status": self.status,
@@ -97,9 +99,12 @@ class AnalysisResult:
             params=TParams(
                 expand=["sample"],
                 omit=[
+                    "sample.file_deleted",
                     "sample.sections",
                     "sample.flags",
                     "sample.dlls_imported",
+                    "sample.entry_points",
+                    "sample.user",
                     "sample.file_version_info",
                 ],
             ),
@@ -117,20 +122,42 @@ class AnalysisResult:
 
     def __populate(self, data: dict) -> None:
         # defaults
+        self.created_at = data["created_at"]
         self.gui_url = data["gui_url"]
         self.api_url = data["api_url"]
         self.status = data["status"]
         self.evaluation = data["evaluation"]
         self.weight = data["weight"]
         self.malware_families = data["malware_families"]
-        self.mitre_techniques = data["mitre_techniques"]
+        self.mitre_techniques = (
+            [
+                {
+                    "tid": tactic["tid"],
+                    "name": tactic["name"],
+                    "techniques": [
+                        {
+                            "tid": technique["tid"],
+                            "name": technique["name"],
+                        }
+                        for technique in tactic["techniques"]
+                    ],
+                }
+                for tactic in data["mitre_techniques"]
+                if tactic["techniques"]
+            ]
+            if data["mitre_techniques"]
+            else []
+        )
         self.malware_behaviours = [  # deprecated
             technique["name"]
             for tactic in self.mitre_techniques
             for technique in tactic["techniques"]
         ]
         self.sample = data["sample"]
-        self.reports = data["reports"]
+        self.reports = [
+            omit_keys(report, ["time", "malware_families"])
+            for report in data["reports"]
+        ]
         matched_rules: Set[AnalysisResult.RuleResult] = set()
         for rule in data["matched_rules"]:
             matched_rules.add(
