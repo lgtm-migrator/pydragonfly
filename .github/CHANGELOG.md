@@ -1,4 +1,7 @@
 # Changelog
+## [0.1.1](https://github.com/certego/pydragonfly/releases/tag/0.1.1)
+
+- Key`malware_behaviour` is still supported in the `Analysis` endpoints
 
 ## [0.1.0](https://github.com/certego/pydragonfly/releases/tag/0.1.0)
 
