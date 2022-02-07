@@ -1,4 +1,8 @@
 # Changelog
+## [0.1.2](https://github.com/certego/pydragonfly/releases/tag/0.1.2)
+
+- Update minimum version of `rich` dependency to 11.1.0
+
 ## [0.1.1](https://github.com/certego/pydragonfly/releases/tag/0.1.1)
 
 - Key`malware_behaviour` is still supported in the `Analysis` endpoints
